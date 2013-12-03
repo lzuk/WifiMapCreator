@@ -1,6 +1,9 @@
 package com.lzuk.mapcreator;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -10,33 +13,42 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 
-public class Start extends Activity {
+public class Start extends Activity implements IGPSListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        header = (View)getLayoutInflater().inflate(R.layout.activity_main, null);
-        headerValue = (TextView) header.findViewById(R.id.wifiString);
-        refreshButton = (Button) findViewById(R.id.refreshButton);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
+        enableDisableButton = (Button) findViewById(R.id.enableDisableButton);
+
+        locationListener = new GPSWiFiLocationListener(getApplicationContext());
+        locationListener.addListener(this);
+        enableDisableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refresh();
+                textViewWiFi = (TextView) findViewById(R.id.wifiStatus);
+                textViewGPS = (TextView) findViewById(R.id.GPSLocation);
+                updateEnableDisableButton();
+                if (!locationListener.isEnabled())
+                    locationListener.enableListener();
+                else{
+                    locationListener.disableListener();
+                    textViewGPS.setText(locationListener.getLastKnownLocation().toString());
+                }
             }
         });
-        refresh();
     }
 
-    public void refresh(){
-        wifiNetworks = getAllWifiNetworks();
-        headerValue.setText(this.wifiNetworks);
-    }
-    private View header;
-    private TextView headerValue;
-    private Button refreshButton;
+    private Button enableDisableButton;
+    private TextView textViewWiFi;
+    private TextView textViewGPS;
+
+    private GPSWiFiLocationListener locationListener;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -44,19 +56,28 @@ public class Start extends Activity {
         getMenuInflater().inflate(R.menu.start, menu);
         return true;
     }
-    private String wifiNetworks;
-    private String getAllWifiNetworks(){
-        WifiManager mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        if (!mWifiManager.isWifiEnabled()){
-            mWifiManager.setWifiEnabled(true);
+
+    private void updateEnableDisableButton() {
+        if (locationListener.isEnabled()){
+            enableDisableButton.setText("Start");
         }
-        List<ScanResult> mScanResults = mWifiManager.getScanResults();
-        this.wifiNetworks = "";
-        for (ScanResult scanResult : mScanResults){
-            this.wifiNetworks += scanResult.SSID + scanResult.level + "\r\n";
+        else{
+            enableDisableButton.setText("Stop");
         }
-        return "";
     }
 
-    
+    @Override
+    public void onEnableGPS() {
+    }
+
+    @Override
+    public void onDisableGPS() {
+        updateEnableDisableButton();
+    }
+
+    @Override
+    public void onLocationChanged() {
+        textViewGPS.setText(locationListener.getLastKnownLocation().toString());
+
+    }
 }
