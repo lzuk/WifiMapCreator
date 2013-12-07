@@ -24,21 +24,23 @@ public class GPSWiFiLocationListener implements LocationListener {
         locationManager = (LocationManager) appContext.getSystemService(Context.LOCATION_SERVICE);
     }
     public void enableListener(){
-        if (enabled == false)
+        if (!enabled){
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 100, this);
-        enabled = true;
+            enabled = true;
+        }
     }
     public void disableListener(){
-        if (enabled == true)
+        if (enabled){
             locationManager.removeUpdates(this);
-        enabled = false;
+            enabled = false;
+        }
+
     }
     public boolean isEnabled(){
         return enabled;
     }
     public Location getLastKnownLocation(){
-        Criteria criteria = new Criteria();
-        return locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        return locationManager.getLastKnownLocation(locationManager.getBestProvider(new Criteria(), false));
     }
 
     //LocationListener Extend
@@ -66,17 +68,20 @@ public class GPSWiFiLocationListener implements LocationListener {
     //
     private void dispatchEvent(InvocationTypes invocationTypes){
         if (enabled) {
-            Method method;
             for (IGPSListener listener : listenerList) {
-                try {
-                    method = listener.getClass().getMethod(invocationTypes.toString());
-                    method.invoke(listener);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                switch (invocationTypes) {
+                    case DISABLED:{
+                        listener.onDisableGPS();
+                        break;
+                    }
+                    case ENABLED:{
+                        listener.onEnableGPS();
+                        break;
+                    }
+                    case UPDATE:{
+                        listener.onLocationChanged();
+                        break;
+                    }
                 }
             }
         }
@@ -90,16 +95,8 @@ public class GPSWiFiLocationListener implements LocationListener {
     private boolean enabled;
     private Set<IGPSListener> listenerList = new HashSet<IGPSListener>();
     enum InvocationTypes{
-        DISABLED("onDisableGPS"),
-        ENABLED("onEnableGPS"),
-        UPDATE("onLocationChanged");
-        private final String text;
-        InvocationTypes(String s) {
-            text = s;
-        }
-        @Override
-        public String toString(){
-            return text;
-        }
+        DISABLED(),
+        ENABLED(),
+        UPDATE()
     }
 }

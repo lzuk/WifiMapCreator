@@ -11,7 +11,7 @@ public class DataManager {
         datas.add(wiFiCoodrinates);
 
     }
-    public int getDatasSize(){
+    public int getDataSize(){
         return datas.size();
     }
     private List<WiFiCoodrinates> datas = new ArrayList<WiFiCoodrinates>();
