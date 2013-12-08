@@ -1,6 +1,9 @@
 package com.lzuk.mapcreator;
 
 import android.app.Activity;
+import android.location.Location;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -25,13 +28,24 @@ public class Start extends Activity implements IGPSListener {
 
         locationListener = new GPSWiFiLocationListener(getApplicationContext());
         locationListener.addListener(this);
-        //final DataBaseHelper dataBaseHelper= new DataBaseHelper(this);
+        final GpsCoordinates gps= new GpsCoordinates(new Location("location"));
+        gps.setLatitude(20.2);
+        gps.setLongitude(30.403);
+        gps.setAltitude(50.345);
+
+        final WiFiListener wifi= new WiFiListener(this);
+
+
+
+        final DataBaseHelper dataBaseHelper= new DataBaseHelper(this);
         enableDisableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textViewWiFi = (TextView) findViewById(R.id.wifiStatus);
                 textViewGPS = (TextView) findViewById(R.id.GPSLocation);
-               // dataBaseHelper.addData(new GpsCoordinates(10.34f,10.65f,10.87f), new WifiInformation("siec",2400,40,"Wep"));
+                //dodwanie do bazy
+                   // dataBaseHelper.addData(gps, new WifiInformation(wifi.getScanResults().get(0))); // dodawanie do bazy
+                   // dataBaseHelper.getAllData();// pobieranie z bazy wszystkich danych wyswietlane w logcat
                 updateEnableDisableButton();
                 if (!locationListener.isEnabled())
                     locationListener.enableListener();

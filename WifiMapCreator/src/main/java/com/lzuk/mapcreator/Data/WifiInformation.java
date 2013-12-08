@@ -1,47 +1,28 @@
 package com.lzuk.mapcreator.Data;
 
+import android.net.wifi.ScanResult;
+import android.os.Parcelable;
+
 /**
  * Created by Krzysiek on 07.12.13.
  */
-public class WifiInformation {
-    private int id;
-    private String ssid;
-    private int frequency;
-    private int level;
-    private String capabilities;
+public class WifiInformation{
+    private Integer id;
+    private ScanResult scanResult;
 
-
-    public WifiInformation(String ssid,int frequency, int level, String capabilities)
+    public WifiInformation(ScanResult scanResult)
     {
-        this.ssid=ssid;
-        this.frequency=frequency;
-        this.level=level;
-        this.capabilities=capabilities;
-
+        this.scanResult= scanResult;
     }
 
-
-    public String getSsid()
+    public WifiInformation(Integer id,ScanResult scanResult)
     {
-        return ssid;
+        this.id=id;
+        this.scanResult= scanResult;
     }
 
-    public int getFrequency()
-    {
-        return frequency;
-    }
+    public Integer getId() {return id;}
 
-    public int getLevel()
-    {
-        return level;
-    }
-
-    public String getCapabilities()
-    {
-        return capabilities;
-    }
-
-
-
+    public ScanResult getScanResult() {return scanResult;}
 
 }

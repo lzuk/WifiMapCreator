@@ -20,15 +20,15 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     private static final String TABLE_DATA = "Data";
     private static final String TABLE_COORDINATES = "Coordinates";
     private static final String TABLE_WIFI_INFORMATIONS = "Informations";
-    private static final String VALUE_SSID = "SSID";
-    private static final String VALUE_FREQUENCY = "Frequency";
-    private static final String VALUE_CAPABILITIES = "Capabilities";
-    private static final String VALUE_LEVEL = "Level";
-    private static final String VALUE_X = "X";
-    private static final String VALUE_Y = "Y";
-    private static final String VALUE_Z = "Z";
-    private static final String VALUE_COORDINATES = "Coordinates";
-    private static final String VALUE_INFORMATIONS = "Informations";
+    private static final String TABLE_VALUE_SSID = "SSID";
+    private static final String TABLE_VALUE_FREQUENCY = "Frequency";
+    private static final String TABLE_VALUE_CAPABILITIES = "Capabilities";
+    private static final String TABLE_VALUE_LEVEL = "Level";
+    private static final String TABLE_VALUE_X = "X";
+    private static final String TABLE_VALUE_Y = "Y";
+    private static final String TABLE_VALUE_Z = "Z";
+    private static final String TABLE_VALUE_COORDINATES = "Coordinates";
+    private static final String TABLE_VALUE_INFORMATIONS = "Informations";
 
 
     public DataBaseHelper(Context context)
@@ -41,7 +41,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         Log.d("create database","create1");
         String createTableData= "CREATE TABLE "+TABLE_DATA+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT, Coordinates INTEGER, Informations INTEGER )";
         String createTableCoordinates= "CREATE TABLE "+TABLE_COORDINATES+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "X FLOAT, Y FLOAT, Z FLOAT )";
+                "X DOUBLE, Y DOUBLE, Z DOUBLE )";
         String createTableInformations="CREATE TABLE "+TABLE_WIFI_INFORMATIONS+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 "SSID VARCHAR(50), Frequency INTEGER , Level INTEGER, Capabilities VARCHAR(50))";
 
@@ -65,18 +65,18 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         Integer idInformations;
         SQLiteDatabase dataBase= this.getWritableDatabase();
         ContentValues values= new ContentValues();
-        values.put(VALUE_X,gpsCoordinates.getGpsCoordinatesX());
-        values.put(VALUE_Y,gpsCoordinates.getGpsCoordinatesY());
-        values.put(VALUE_Z,gpsCoordinates.getGpsCoordinatesZ());
+        values.put(TABLE_VALUE_X,gpsCoordinates.getLatitude());
+        values.put(TABLE_VALUE_Y,gpsCoordinates.getAltitude());
+        values.put(TABLE_VALUE_Z,gpsCoordinates.getLongitude());
         dataBase.insert(TABLE_COORDINATES, null, values);
         idCoordinates= getLastInsertId(dataBase);
         Log.d("id",idCoordinates.toString());
 
         values= new ContentValues();
-        values.put(VALUE_SSID,wifiInformation.getSsid());
-        values.put(VALUE_FREQUENCY, wifiInformation.getFrequency());
-        values.put(VALUE_LEVEL,wifiInformation.getLevel());
-        values.put(VALUE_CAPABILITIES, wifiInformation.getCapabilities());
+        values.put(TABLE_VALUE_SSID,wifiInformation.getScanResult().SSID);
+        values.put(TABLE_VALUE_FREQUENCY, wifiInformation.getScanResult().frequency);
+        values.put(TABLE_VALUE_LEVEL,wifiInformation.getScanResult().level);
+        values.put(TABLE_VALUE_CAPABILITIES, wifiInformation.getScanResult().capabilities);
         dataBase.insert(TABLE_WIFI_INFORMATIONS,null,values);
         idInformations= getLastInsertId(dataBase);
         Log.d("id",idInformations.toString());
@@ -84,14 +84,35 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         if(idCoordinates>0 && idInformations>0)
         {
             values= new ContentValues();
-            values.put(VALUE_COORDINATES,idCoordinates);
-            values.put(VALUE_INFORMATIONS,idInformations);
+            values.put(TABLE_VALUE_COORDINATES,idCoordinates);
+            values.put(TABLE_VALUE_INFORMATIONS,idInformations);
             dataBase.insert(TABLE_DATA,null,values);
             Log.d("add..","added");
         }
 
         dataBase.close();
     }
+
+    public String getAllData()
+    {
+        String result="";
+        //String query="SELECT * FROM "+TABLE_DATA;
+        String query= "SELECT Coordinates.X,Coordinates.Y, Coordinates.Z, Informations.SSID, Informations.Frequency, Informations.Capabilities ,Informations.Level FROM "+TABLE_DATA+
+                " INNER JOIN "+TABLE_COORDINATES+" ON Data.Coordinates=Coordinates.id INNER JOIN "+TABLE_WIFI_INFORMATIONS+
+                " ON Data.Informations=Informations.id";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst())
+        {
+            do{
+                result+=cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2)+" "+cursor.getString(3)+" "+cursor.getString(4)+" "+cursor.getString(5)+" "+cursor.getString(6)+"\n";
+            }while(cursor.moveToNext());
+        }
+        Log.d("result",result);
+        return result;
+    }
+
 
     private Integer getLastInsertId(SQLiteDatabase dataBase)
     {

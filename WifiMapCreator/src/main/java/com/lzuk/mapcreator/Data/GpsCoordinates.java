@@ -1,46 +1,28 @@
 package com.lzuk.mapcreator.Data;
 
+import android.location.Location;
+
 /**
  * Created by Krzysiek on 07.12.13.
  */
-public class GpsCoordinates {
+public class GpsCoordinates extends Location {
 
-    private Float id;
-    private Float x;
-    private Float y;
-    private Float z;
+    private Integer id;
 
-    public GpsCoordinates(Float x, Float y, Float z)
+
+    public GpsCoordinates(Location location)
     {
-        this.x=x;
-        this.y=y;
-        this.z=z;
+        super(location);
     }
 
-    public GpsCoordinates(Float id,Float x, Float y, Float z)
+
+    public GpsCoordinates(Integer id,Location location)
     {
+        super(location);
         this.id=id;
-        this.x=x;
-        this.y=y;
-        this.z=z;
     }
 
-    public Float getGpsCoordinatesX()
-    {
-        return x;
-    }
-
-    public Float getGpsCoordinatesY()
-    {
-        return y;
-    }
-
-    public Float getGpsCoordinatesZ()
-    {
-        return z;
-    }
-
-    public Float getId()
+    public Integer getId()
     {
         return id;
     }
