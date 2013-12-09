@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.wifi.ScanResult;
 import android.util.Log;
 
 import com.lzuk.mapcreator.Data.GpsCoordinates;
@@ -72,24 +73,25 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         idCoordinates= getLastInsertId(dataBase);
         Log.d("id",idCoordinates.toString());
 
-        values= new ContentValues();
-        values.put(TABLE_VALUE_SSID,wifiInformation.getScanResult().SSID);
-        values.put(TABLE_VALUE_FREQUENCY, wifiInformation.getScanResult().frequency);
-        values.put(TABLE_VALUE_LEVEL,wifiInformation.getScanResult().level);
-        values.put(TABLE_VALUE_CAPABILITIES, wifiInformation.getScanResult().capabilities);
-        dataBase.insert(TABLE_WIFI_INFORMATIONS,null,values);
-        idInformations= getLastInsertId(dataBase);
-        Log.d("id",idInformations.toString());
+        for (ScanResult scanResult : wifiInformation.getScanResult()){
+            values.clear();
+            values.put(TABLE_VALUE_SSID,scanResult.SSID);
+            values.put(TABLE_VALUE_FREQUENCY, scanResult.frequency);
+            values.put(TABLE_VALUE_LEVEL,scanResult.level);
+            values.put(TABLE_VALUE_CAPABILITIES, scanResult.capabilities);
+            dataBase.insert(TABLE_WIFI_INFORMATIONS,null,values);
+            idInformations= getLastInsertId(dataBase);
+            Log.d("id",idInformations.toString());
 
-        if(idCoordinates>0 && idInformations>0)
-        {
-            values= new ContentValues();
-            values.put(TABLE_VALUE_COORDINATES,idCoordinates);
-            values.put(TABLE_VALUE_INFORMATIONS,idInformations);
-            dataBase.insert(TABLE_DATA,null,values);
-            Log.d("add..","added");
+            if(idCoordinates>0 && idInformations>0)
+            {
+                values= new ContentValues();
+                values.put(TABLE_VALUE_COORDINATES,idCoordinates);
+                values.put(TABLE_VALUE_INFORMATIONS,idInformations);
+                dataBase.insert(TABLE_DATA,null,values);
+                Log.d("add..","added");
+            }
         }
-
         dataBase.close();
     }
 

@@ -6,16 +6,7 @@ import java.util.List;
 /**
  * Created by Łukasz on 17.10.13.
  */
-public class DataManager {
-    public void addData(WiFiCoodrinates wiFiCoodrinates){
-        datas.add(wiFiCoodrinates);
-
-    }
-    public int getDataSize(){
-        return datas.size();
-    }
-    private List<WiFiCoodrinates> datas = new ArrayList<WiFiCoodrinates>();
-
+public class DataManager implements IGPSListener {
     //Make class singleton
     private static DataManager instance = null;
     public static DataManager getInstance(){
@@ -24,7 +15,23 @@ public class DataManager {
         }
         return instance;
     }
+
     protected DataManager(){
+
+    }
+
+    @Override
+    public void onEnableGPS() {
+        //nope
+    }
+
+    @Override
+    public void onDisableGPS() {
+        //nope
+    }
+
+    @Override
+    public void onLocationChanged() {
 
     }
 }

@@ -44,8 +44,8 @@ public class Start extends Activity implements IGPSListener {
                 textViewWiFi = (TextView) findViewById(R.id.wifiStatus);
                 textViewGPS = (TextView) findViewById(R.id.GPSLocation);
                 //dodwanie do bazy
-                   // dataBaseHelper.addData(gps, new WifiInformation(wifi.getScanResults().get(0))); // dodawanie do bazy
-                   // dataBaseHelper.getAllData();// pobieranie z bazy wszystkich danych wyswietlane w logcat
+                    dataBaseHelper.addData(gps, new WifiInformation(wifi.getScanResults())); // dodawanie do bazy
+                    dataBaseHelper.getAllData();// pobieranie z bazy wszystkich danych wyswietlane w logcat
                 updateEnableDisableButton();
                 if (!locationListener.isEnabled())
                     locationListener.enableListener();
