@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.lzuk.mapcreator.Data.GpsCoordinates;
-import com.lzuk.mapcreator.Data.WifiInformation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -91,7 +89,7 @@ public class Start extends Activity implements IGPSListener {
     }
 
     @Override
-    public void onLocationChanged(GpsCoordinates gpsCoordinates) {
-        textViewGPS.setText(gpsCoordinates.toString());
+    public void onLocationChanged(Location location) {
+        textViewGPS.setText(location.toString());
     }
 }
