@@ -28,7 +28,7 @@ public class GPSWiFiLocationListener implements LocationListener {
     }
     public void enableListener(){
         if (!enabled){
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 100, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 10, this);
             enabled = true;
         }
     }
