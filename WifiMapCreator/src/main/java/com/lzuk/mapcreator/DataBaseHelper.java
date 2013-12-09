@@ -7,9 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.wifi.ScanResult;
 import android.util.Log;
+import android.location.Location;
 
-import com.lzuk.mapcreator.Data.GpsCoordinates;
-import com.lzuk.mapcreator.Data.WifiInformation;
+import java.io.File;
+import java.util.List;
 
 /**
  * Created by Krzysiek on 07.12.13.
@@ -34,7 +35,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
     public DataBaseHelper(Context context)
     {
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        super(context,DATABASE_NAME+".db",null,DATABASE_VERSION);
+        SQLiteDatabase.openOrCreateDatabase("/sdcard/"+DATABASE_NAME+".db",null);
+        //SQLiteDatabase.openOrCreateDatabase("/"+DATABASE_NAME+".db",null);
     }
 
     @Override
@@ -60,20 +63,20 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         this.onCreate(dataBase);
     }
 
-    public void addData(GpsCoordinates gpsCoordinates, WifiInformation wifiInformation)
+    public void addData(Location location, List<ScanResult> listScanResult)
     {
         Integer idCoordinates;
         Integer idInformations;
         SQLiteDatabase dataBase= this.getWritableDatabase();
         ContentValues values= new ContentValues();
-        values.put(TABLE_VALUE_X,gpsCoordinates.getLatitude());
-        values.put(TABLE_VALUE_Y,gpsCoordinates.getAltitude());
-        values.put(TABLE_VALUE_Z,gpsCoordinates.getLongitude());
+        values.put(TABLE_VALUE_X,location.getLatitude());
+        values.put(TABLE_VALUE_Y,location.getAltitude());
+        values.put(TABLE_VALUE_Z,location.getLongitude());
         dataBase.insert(TABLE_COORDINATES, null, values);
         idCoordinates= getLastInsertId(dataBase);
         Log.d("id",idCoordinates.toString());
 
-        for (ScanResult scanResult : wifiInformation.getScanResult()){
+        for (ScanResult scanResult : listScanResult){
             values.clear();
             values.put(TABLE_VALUE_SSID,scanResult.SSID);
             values.put(TABLE_VALUE_FREQUENCY, scanResult.frequency);

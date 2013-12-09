@@ -9,10 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.lzuk.mapcreator.Data.GpsCoordinates;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -82,7 +78,7 @@ public class GPSWiFiLocationListener implements LocationListener {
                         break;
                     }
                     case UPDATE:{
-                        listener.onLocationChanged(new GpsCoordinates(getLastKnownLocation()));
+                        listener.onLocationChanged(getLastKnownLocation());
                         break;
                     }
                 }

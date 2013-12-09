@@ -1,6 +1,6 @@
 package com.lzuk.mapcreator;
 
-import com.lzuk.mapcreator.Data.GpsCoordinates;
+import android.location.Location;
 
 /**
  * Created by Łukasz on 17.10.13.
@@ -8,5 +8,5 @@ import com.lzuk.mapcreator.Data.GpsCoordinates;
 public interface IGPSListener {
     void onEnableGPS();
     void onDisableGPS();
-    void onLocationChanged(GpsCoordinates gpsCoordinates);
+    void onLocationChanged(Location location);
 }

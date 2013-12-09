@@ -1,13 +1,7 @@
 package com.lzuk.mapcreator;
 
 import android.app.Activity;
-import android.widget.Toast;
-
-import com.lzuk.mapcreator.Data.GpsCoordinates;
-import com.lzuk.mapcreator.Data.WifiInformation;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.location.Location;
 
 /**
  * Created by Łukasz on 17.10.13.
@@ -41,8 +35,8 @@ public class DataManager implements IGPSListener {
     }
 
     @Override
-    public void onLocationChanged(GpsCoordinates gpsCoordinates) {
-        dataBaseHelper.addData(gpsCoordinates, new WifiInformation(wiFiListener.getScanResults()));
+    public void onLocationChanged(Location location) {
+        dataBaseHelper.addData(location, wiFiListener.getScanResults());
         dataBaseHelper.getAllData();
     }
 }
