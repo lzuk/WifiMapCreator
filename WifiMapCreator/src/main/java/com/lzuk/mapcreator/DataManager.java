@@ -1,13 +1,9 @@
 package com.lzuk.mapcreator;
 
 import android.app.Activity;
-import android.widget.Toast;
 
 import com.lzuk.mapcreator.Data.GpsCoordinates;
 import com.lzuk.mapcreator.Data.WifiInformation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Łukasz on 17.10.13.

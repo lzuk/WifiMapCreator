@@ -7,6 +7,8 @@ import com.lzuk.mapcreator.Data.GpsCoordinates;
  */
 public interface IGPSListener {
     void onEnableGPS();
+
     void onDisableGPS();
+
     void onLocationChanged(GpsCoordinates gpsCoordinates);
 }

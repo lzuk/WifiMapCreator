@@ -1,9 +1,6 @@
 package com.lzuk.mapcreator;
 
 import android.app.Activity;
-import android.location.Location;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -11,12 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.lzuk.mapcreator.Data.GpsCoordinates;
-import com.lzuk.mapcreator.Data.WifiInformation;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.List;
 
 public class Start extends Activity implements IGPSListener {
 

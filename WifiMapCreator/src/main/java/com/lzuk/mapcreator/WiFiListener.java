@@ -1,41 +1,39 @@
 package com.lzuk.mapcreator;
 
 import android.app.Activity;
-import android.net.wifi.*;
 import android.content.Context;
-import java.util.List;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Krzysiek on 08.12.13.
  */
-public class WiFiListener{
+public class WiFiListener {
 
     private WifiManager wifiManager;
     Activity activity;
-    private List<ScanResult> resultsWifiScan= new ArrayList<ScanResult>();
+    private List<ScanResult> resultsWifiScan = new ArrayList<ScanResult>();
 
-    public WiFiListener(Activity activity)
-    {
-        this.activity= activity;
-        wifiManager = (WifiManager)activity.getSystemService(Context.WIFI_SERVICE);
+    public WiFiListener(Activity activity) {
+        this.activity = activity;
+        wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
     }
 
-    public void wifiOn()
-    {
+    public void wifiOn() {
         wifiManager.setWifiEnabled(true);
     }
 
-    public void wifiOff()
-    {
+    public void wifiOff() {
         wifiManager.setWifiEnabled(false);
     }
 
-    public List<ScanResult> getScanResults()
-    {
+    public List<ScanResult> getScanResults() {
         wifiManager.startScan();
-        resultsWifiScan= wifiManager.getScanResults();
-        return  resultsWifiScan;
+        resultsWifiScan = wifiManager.getScanResults();
+        return resultsWifiScan;
     }
 
     public String getWifiStateStr() {

@@ -10,20 +10,17 @@ public class GpsCoordinates extends Location {
     private Integer id;
 
 
-    public GpsCoordinates(Location location)
-    {
+    public GpsCoordinates(Location location) {
         super(location);
     }
 
 
-    public GpsCoordinates(Integer id,Location location)
-    {
+    public GpsCoordinates(Integer id, Location location) {
         super(location);
-        this.id=id;
+        this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
