@@ -26,26 +26,28 @@ public class Start extends Activity implements IGPSListener {
         setContentView(R.layout.activity_main);
         enableDisableButton = (Button) findViewById(R.id.enableDisableButton);
 
-        locationListener = new GPSWiFiLocationListener(getApplicationContext());
+        locationListener = new GPSWiFiLocationListener(getApplicationContext(), this);
+        DataManager dataManager = new DataManager(this);
+        locationListener.addListener(dataManager);
         locationListener.addListener(this);
-        final GpsCoordinates gps= new GpsCoordinates(new Location("location"));
-        gps.setLatitude(20.2);
-        gps.setLongitude(30.403);
-        gps.setAltitude(50.345);
+        //final GpsCoordinates gps= new GpsCoordinates(new Location("location"));
+        //gps.setLatitude(20.2);
+        //gps.setLongitude(30.403);
+        //gps.setAltitude(50.345);
 
-        final WiFiListener wifi= new WiFiListener(this);
+        //final WiFiListener wifi= new WiFiListener(this);
+
+        //final DataBaseHelper dataBaseHelper= new DataBaseHelper(this);
 
 
-
-        final DataBaseHelper dataBaseHelper= new DataBaseHelper(this);
         enableDisableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textViewWiFi = (TextView) findViewById(R.id.wifiStatus);
                 textViewGPS = (TextView) findViewById(R.id.GPSLocation);
                 //dodwanie do bazy
-                    dataBaseHelper.addData(gps, new WifiInformation(wifi.getScanResults())); // dodawanie do bazy
-                    dataBaseHelper.getAllData();// pobieranie z bazy wszystkich danych wyswietlane w logcat
+                    //dataBaseHelper.addData(gps, new WifiInformation(wifi.getScanResults())); // dodawanie do bazy
+                    //dataBaseHelper.getAllData();// pobieranie z bazy wszystkich danych wyswietlane w logcat
                 updateEnableDisableButton();
                 if (!locationListener.isEnabled())
                     locationListener.enableListener();
@@ -89,8 +91,7 @@ public class Start extends Activity implements IGPSListener {
     }
 
     @Override
-    public void onLocationChanged() {
-        textViewGPS.setText(locationListener.getLastKnownLocation().toString());
-
+    public void onLocationChanged(GpsCoordinates gpsCoordinates) {
+        textViewGPS.setText(gpsCoordinates.toString());
     }
 }

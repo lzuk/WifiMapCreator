@@ -1,5 +1,6 @@
 package com.lzuk.mapcreator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -7,6 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.lzuk.mapcreator.Data.GpsCoordinates;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,9 +20,9 @@ import java.util.Set;
  * Created by Łukasz on 17.10.13.
  */
 public class GPSWiFiLocationListener implements LocationListener {
-    public GPSWiFiLocationListener(Context appContext){
+    public GPSWiFiLocationListener(Context appContext, Activity activity){
         applicationConetxt = appContext;
-        dataManager = DataManager.getInstance();
+        dataManager = DataManager.getInstance(activity);
         enabled = false;
         locationManager = (LocationManager) appContext.getSystemService(Context.LOCATION_SERVICE);
     }
@@ -79,7 +82,7 @@ public class GPSWiFiLocationListener implements LocationListener {
                         break;
                     }
                     case UPDATE:{
-                        listener.onLocationChanged();
+                        listener.onLocationChanged(new GpsCoordinates(getLastKnownLocation()));
                         break;
                     }
                 }
