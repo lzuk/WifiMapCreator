@@ -2,11 +2,21 @@ package com.lzuk.mapcreator;
 
 import android.app.Activity;
 import android.location.Location;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.lzuk.mapcreator.Data.GpsCoordinates;
+import com.lzuk.mapcreator.Data.WifiInformation;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.List;
 
 public class Start extends Activity implements IGPSListener {
 
@@ -20,17 +30,15 @@ public class Start extends Activity implements IGPSListener {
         DataManager dataManager = new DataManager(this);
         locationListener.addListener(dataManager);
         locationListener.addListener(this);
+        //final GpsCoordinates gps= new GpsCoordinates(new Location("location"));
+        //gps.setLatitude(20.2);
+        //gps.setLongitude(30.403);
+        //gps.setAltitude(50.345);
 
-//        Location location = new Location("new");
-//        location.setLatitude(20.2);
-//        location.setLongitude(30.403);
-//        location.setAltitude(50.345);
-//
-//        final WiFiListener wifi= new WiFiListener(this);
-//
-//        final DataBaseHelper dataBaseHelper= new DataBaseHelper(this);
-//        dataBaseHelper.addData(location, wifi.getScanResults());
-//       dataBaseHelper.getAllData();// pobieranie z bazy wszystkich danych wyswietlane w logcat
+        //final WiFiListener wifi= new WiFiListener(this);
+
+        //final DataBaseHelper dataBaseHelper= new DataBaseHelper(this);
+
 
         enableDisableButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +91,7 @@ public class Start extends Activity implements IGPSListener {
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        textViewGPS.setText(location.toString());
+    public void onLocationChanged(GpsCoordinates gpsCoordinates) {
+        textViewGPS.setText(gpsCoordinates.toString());
     }
 }
