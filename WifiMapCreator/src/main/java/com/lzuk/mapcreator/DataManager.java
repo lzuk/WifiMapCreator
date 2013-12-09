@@ -15,20 +15,25 @@ import java.util.List;
 public class DataManager implements IGPSListener {
     //Make class singleton
     private static DataManager instance = null;
-    public static DataManager getInstance(Activity activity){
-        if (instance == null){
+
+    public static DataManager getInstance(Activity activity) {
+        if (instance == null) {
             instance = new DataManager(activity);
         }
         return instance;
     }
-    protected DataManager(Activity activity){
+
+    protected DataManager(Activity activity) {
         this.activity = activity;
         wiFiListener = new WiFiListener(activity);
         dataBaseHelper = new DataBaseHelper(activity);
+        dataBaseHelper.getAllData();
     }
+
     private Activity activity;
     private WiFiListener wiFiListener;
     private DataBaseHelper dataBaseHelper;
+    public WifiInformation wifiInformation;
 
     @Override
     public void onEnableGPS() {
@@ -42,7 +47,7 @@ public class DataManager implements IGPSListener {
 
     @Override
     public void onLocationChanged(GpsCoordinates gpsCoordinates) {
-        dataBaseHelper.addData(gpsCoordinates, new WifiInformation(wiFiListener.getScanResults()));
-        dataBaseHelper.getAllData();
+        wifiInformation = new WifiInformation(wiFiListener.getScanResults());
+        dataBaseHelper.addData(gpsCoordinates, wifiInformation);
     }
 }
