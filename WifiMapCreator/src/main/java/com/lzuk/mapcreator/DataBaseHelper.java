@@ -36,7 +36,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public DataBaseHelper(Context context)
     {
         super(context,DATABASE_NAME+".db",null,DATABASE_VERSION);
-        SQLiteDatabase.openOrCreateDatabase("/sdcard/"+DATABASE_NAME+".db",null);
+        //SQLiteDatabase.openOrCreateDatabase("/sdcard/"+DATABASE_NAME+".db",null); // zapis bazy n akarcie pamięci
         //SQLiteDatabase.openOrCreateDatabase("/"+DATABASE_NAME+".db",null);
     }
 
