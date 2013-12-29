@@ -52,4 +52,20 @@ public class WiFiListener {
         }
     }
 
+    @Override
+    public String toString()
+    {
+        String data="";
+        List<ScanResult> results = getScanResults();
+        for (int i =0; i< results.size();i++) {
+            data+= "SSID "+results.get(i).SSID.toString()+"\n ";
+            data+= "BSSID "+results.get(i).BSSID.toString()+"\n ";
+            data+="frequency "+ results.get(i).frequency+"\n ";
+            data+= "level "+results.get(i).level+"\n ";
+            data+= "capabilities "+results.get(i).capabilities.toString()+"\n\n";
+            //data+= "timestamp "+results.get(i).timestamp+"\n ";
+        }
+        return  data;
+    }
+
 }

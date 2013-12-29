@@ -8,10 +8,6 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.swipwapp.MainActivity$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -26,20 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/wifiStatus"
-        android:layout_below="@+id/refreshButton"
-        android:layout_alignLeft="@+id/wifiString"
-        android:layout_alignRight="@+id/refreshButton"
-        android:enabled="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/GPSLocation"
-        android:layout_below="@+id/wifiStatus"
-        android:layout_alignLeft="@+id/wifiStatus" />
+        android:text="GPS"
+        android:id="@+id/GPSLocation" />
 
 </RelativeLayout>

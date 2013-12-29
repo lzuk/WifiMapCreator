@@ -16,6 +16,7 @@ public class DummySectionFragmentWiFi extends Fragment {
 
     public static final String ARG_SECTION_NUMBER = "section_number";
     private FragmentActivity fragmentActivity;
+    private TextView textViewWiFi;
 
     public DummySectionFragmentWiFi(FragmentActivity fragmentActivity) {
         this.fragmentActivity=fragmentActivity;
@@ -24,9 +25,15 @@ public class DummySectionFragmentWiFi extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main_wifi, container, false);
-
-
+        textViewWiFi = (TextView) rootView.findViewById(R.id.wifiStatus);
 
         return rootView;
     }
+
+    public void setTextViewWiFi(String text)
+    {
+        textViewWiFi.setText(text);
+    }
+
+
 }

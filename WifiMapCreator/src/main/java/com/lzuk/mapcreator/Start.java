@@ -29,17 +29,20 @@ public class Start extends FragmentActivity implements IGPSListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        enableDisableButton = (Button) findViewById(R.id.enableDisableButton);
-
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),this);
-
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
+        //enableDisableButton = (Button) findViewById(R.id.enableDisableButton);
 
         locationListener = new GPSWiFiLocationListener(getApplicationContext(), this);
         DataManager dataManager = new DataManager(this);
         locationListener.addListener(dataManager);
         locationListener.addListener(this);
+
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),this,locationListener);
+        sectionsPagerAdapter.setWiFiListener(dataManager.getWiFiListener());
+
+
+
+        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
         //final GpsCoordinates gps= new GpsCoordinates(new Location("location"));
         //gps.setLatitude(20.2);
         //gps.setLongitude(30.403);
