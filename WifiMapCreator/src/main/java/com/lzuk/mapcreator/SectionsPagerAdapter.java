@@ -83,7 +83,7 @@ public class SectionsPagerAdapter  extends FragmentPagerAdapter implements IGPSL
 
     @Override
     public void onEnableGPS() {
-
+        dummySectionFragmentWiFi.setWiFiList(wiFiListener.getScanResults());
     }
 
     @Override
@@ -95,6 +95,7 @@ public class SectionsPagerAdapter  extends FragmentPagerAdapter implements IGPSL
     public void onLocationChanged(Location location) {
         dummySectionFragmentGPS.setGPSText(location);
         dummySectionFragmentWiFi.setTextViewWiFi(wiFiListener.toString());
+        dummySectionFragmentWiFi.setWiFiList(wiFiListener.getScanResults());
     }
 
     public void setWiFiListener(WiFiListener wiFiListener)
