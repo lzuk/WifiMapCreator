@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WifiMapCreator/WifiMapCreator.iml" filepath="$PROJECT_DIR$/WifiMapCreator/WifiMapCreator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WifiMapCreator/WifiMapCreator-WifiMapCreator.iml" filepath="$PROJECT_DIR$/WifiMapCreator/WifiMapCreator-WifiMapCreator.iml" />
       <module fileurl="file://$PROJECT_DIR$/WifiMapCreatorProject.iml" filepath="$PROJECT_DIR$/WifiMapCreatorProject.iml" />
     </modules>
   </component>
