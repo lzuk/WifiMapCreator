@@ -39,9 +39,6 @@ public class Start extends FragmentActivity implements IGPSListener {
 
     }
 
-    private Button enableDisableButton;
-    private TextView textViewWiFi;
-    private TextView textViewGPS;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
 

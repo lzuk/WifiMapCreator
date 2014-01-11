@@ -21,33 +21,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/wifiString" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:id="@+id/enableDisableButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/wifiStatus"
-        android:layout_below="@+id/refreshButton"
-        android:layout_alignLeft="@+id/wifiString"
-        android:layout_alignRight="@+id/refreshButton"
-        android:enabled="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/GPSLocation"
-        android:layout_below="@+id/wifiStatus"
-        android:layout_alignLeft="@+id/wifiStatus" />
 
 </android.support.v4.view.ViewPager>
