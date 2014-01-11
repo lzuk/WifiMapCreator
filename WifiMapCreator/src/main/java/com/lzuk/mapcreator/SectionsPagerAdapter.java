@@ -25,7 +25,7 @@ public class SectionsPagerAdapter  extends FragmentPagerAdapter implements IGPSL
         this.fragmentActivity=fragmentActivity;
         dummySectionFragmentWiFi = new DummySectionFragmentWiFi(fragmentActivity);
         dummySectionFragmentGPS= new DummySectionFragment(fragmentActivity,locationListener);
-        dummySectionFragmentMap = new DummySectionFragmentMap(fragmentActivity);
+        dummySectionFragmentMap = new DummySectionFragmentMap(fragmentActivity, locationListener);
     }
 
     @Override
@@ -94,8 +94,8 @@ public class SectionsPagerAdapter  extends FragmentPagerAdapter implements IGPSL
     @Override
     public void onLocationChanged(Location location) {
         dummySectionFragmentGPS.setGPSText(location);
-        dummySectionFragmentWiFi.setTextViewWiFi(wiFiListener.toString());
         dummySectionFragmentWiFi.setWiFiList(wiFiListener.getScanResults());
+        dummySectionFragmentMap.locationChanged(location);
     }
 
     public void setWiFiListener(WiFiListener wiFiListener)

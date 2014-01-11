@@ -1,5 +1,6 @@
 package com.lzuk.mapcreator;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,16 +21,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by Krzysiek on 27.12.13.
  */
-public class DummySectionFragmentMap extends Fragment {
+public class DummySectionFragmentMap extends Fragment{
 
     public static final String ARG_SECTION_NUMBER = "section_number";
     private FragmentActivity fragmentActivity;
     private GoogleMap map;
-    static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-    static final LatLng KIEL = new LatLng(53.551, 9.993);
+    static final LatLng PolSLAEI = new LatLng(50.28869429, 18.67747071);
+    private GPSWiFiLocationListener locationListener;
 
-    public DummySectionFragmentMap(FragmentActivity fragmentActivity) {
+    public DummySectionFragmentMap(FragmentActivity fragmentActivity, GPSWiFiLocationListener locationListener) {
         this.fragmentActivity=fragmentActivity;
+        this.locationListener = locationListener;
     }
 
     @Override
@@ -47,8 +49,19 @@ public class DummySectionFragmentMap extends Fragment {
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         map.setBuildingsEnabled(true);
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(HAMBURG));
-        //map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-
+        if (locationListener.getLastKnownLocation() == null || !locationListener.isEnabled()){
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(PolSLAEI, 18));
+        }
+        else{
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(locationListener.getLastKnownLocation().getLatitude(), locationListener.getLastKnownLocation().getLongitude()),
+                    18));
+        }
+    }
+    public void locationChanged(Location location) {
+        if (isVisible()){
+            map.moveCamera(CameraUpdateFactory.newLatLng(
+                    new LatLng(location.getLatitude(), location.getLongitude())));
+        }
     }
 }

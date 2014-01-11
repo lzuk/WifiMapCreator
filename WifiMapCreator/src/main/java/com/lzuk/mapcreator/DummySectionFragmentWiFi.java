@@ -5,6 +5,7 @@ import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,10 @@ public class DummySectionFragmentWiFi extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setWiFiList(wiFiListener.getScanResults());
+                try{
+                    setWiFiList(wiFiListener.getScanResults());
+                 }catch (Exception e){
+                }
             }
         });
 
@@ -53,10 +57,6 @@ public class DummySectionFragmentWiFi extends Fragment {
         return rootView;
     }
 
-    public void setTextViewWiFi(String text)
-    {
-        textViewWiFi.setText(text);
-    }
     public void setWiFiList(List<ScanResult> scans){
         ArrayList<String> scansL = new ArrayList<String>();
         for (ScanResult scanResult : scans){
