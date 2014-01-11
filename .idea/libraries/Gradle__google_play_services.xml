@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: google-play-services">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/WifiMapCreator/build/play-services/google-play-services.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

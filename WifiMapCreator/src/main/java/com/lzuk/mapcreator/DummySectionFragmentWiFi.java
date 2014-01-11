@@ -58,11 +58,6 @@ public class DummySectionFragmentWiFi extends Fragment {
         textViewWiFi.setText(text);
     }
     public void setWiFiList(List<ScanResult> scans){
-        /*
-        final ScanResultAdapter scanResultAdapter = new ScanResultAdapter(fragmentActivity, scans, fragmentActivity);
-        if (wifiListView != null){
-            wifiListView.setAdapter(scanResultAdapter);
-        }*/
         ArrayList<String> scansL = new ArrayList<String>();
         for (ScanResult scanResult : scans){
             scansL.add(scanResult.SSID + ": " + scanResult.level);
