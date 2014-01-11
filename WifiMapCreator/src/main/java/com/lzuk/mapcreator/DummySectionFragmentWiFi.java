@@ -46,10 +46,8 @@ public class DummySectionFragmentWiFi extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    setWiFiList(wiFiListener.getScanResults());
-                 }catch (Exception e){
-                }
+                setWiFiList(wiFiListener.getScanResults());
+
             }
         });
 
