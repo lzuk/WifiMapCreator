@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Krzysiek on 27.12.13.
@@ -62,14 +63,22 @@ public class DummySectionFragmentWiFi extends Fragment {
             @Override
             public void onClick(View v) {
                 setWiFiList(wiFiListener.getScanResults());
-
             }
         });
     }
     public void setWiFiList(List<ScanResult> scans){
         ArrayList<String> scansL = new ArrayList<String>();
+        StringBuilder result ;
         for (ScanResult scanResult : scans){
-            scansL.add(scanResult.SSID + ": " + scanResult.level);
+            result = new StringBuilder();
+            result.append("Nazwa : " + scanResult.SSID);
+            result.append("\n");
+            result.append("Szyfrowanie : " + scanResult.capabilities );
+            result.append("\n");
+            result.append("Poziom : " + scanResult.level);
+            result.append("\t");
+            result.append("Częstotliwość : " + scanResult.frequency);
+            scansL.add(result.toString());
         }
         adapter = new ArrayAdapter<String>(fragmentActivity, R.layout.row, scansL);
         wifiListView.setAdapter(adapter);
