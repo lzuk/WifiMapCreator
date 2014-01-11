@@ -42,7 +42,8 @@
             android:value="AIzaSyABgyZLv0zSvdLrmPN6HCgoZDx1iDezkbg"/>
         <activity
             android:name="com.lzuk.mapcreator.Start"
-            android:label="@string/title_activity_start" >
+            android:label="@string/title_activity_start"
+            android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
