@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ public class DummySectionFragmentMap extends Fragment{
     private GoogleMap map;
     static final LatLng PolSLAEI = new LatLng(50.28869429, 18.67747071);
     private GPSWiFiLocationListener locationListener;
+    private View root;
 
     public DummySectionFragmentMap(FragmentActivity fragmentActivity, GPSWiFiLocationListener locationListener) {
         this.fragmentActivity=fragmentActivity;
@@ -36,10 +39,17 @@ public class DummySectionFragmentMap extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_main_map, container, false);
-        setMap();
-
-        return rootView;
+        if (root!= null) {
+            ViewGroup parent = (ViewGroup) root.getParent();
+            if (parent != null)
+                parent.removeView(root);
+        }
+        try {
+            root = inflater.inflate(R.layout.fragment_main_map, container, false);
+            setMap();
+        } catch (InflateException e) {
+        }
+        return root;
     }
 
     private void setMap(){
