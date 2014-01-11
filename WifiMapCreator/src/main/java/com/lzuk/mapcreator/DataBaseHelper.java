@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.wifi.ScanResult;
+import android.os.Environment;
 import android.util.Log;
 import android.location.Location;
 
@@ -31,19 +32,22 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     private static final String TABLE_VALUE_Z = "Z";
     private static final String TABLE_VALUE_COORDINATES = "Coordinates";
     private static final String TABLE_VALUE_INFORMATIONS = "Informations";
+    private static final String TABLE_VALUE_SEND = "Send";
 
 
     public DataBaseHelper(Context context)
     {
         super(context,DATABASE_NAME+".db",null,DATABASE_VERSION);
-        SQLiteDatabase.openOrCreateDatabase("/sdcard/"+DATABASE_NAME+".db",null); // zapis bazy n akarcie pamięci
+        File file = new File("/sdcard/WifiMapCreator");
+        file.mkdirs();
+        SQLiteDatabase.openOrCreateDatabase("/sdcard/WifiMapCreator/"+DATABASE_NAME+".db",null); // zapis bazy n akarcie pamięci
         //SQLiteDatabase.openOrCreateDatabase("/"+DATABASE_NAME+".db",null);
     }
 
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
         Log.d("create database","create1");
-        String createTableData= "CREATE TABLE "+TABLE_DATA+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT, Coordinates INTEGER, Informations INTEGER )";
+        String createTableData= "CREATE TABLE "+TABLE_DATA+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT, Coordinates INTEGER, Informations INTEGER, Send BOOLEAN )";
         String createTableCoordinates= "CREATE TABLE "+TABLE_COORDINATES+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 "X DOUBLE, Y DOUBLE, Z DOUBLE )";
         String createTableInformations="CREATE TABLE "+TABLE_WIFI_INFORMATIONS+" ( Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -63,7 +67,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         this.onCreate(dataBase);
     }
 
-    public void addData(Location location, List<ScanResult> listScanResult)
+    public void addData(Location location, List<ScanResult> listScanResult, boolean sendOnServer)
     {
         Integer idCoordinates;
         Integer idInformations;
@@ -91,6 +95,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
                 values= new ContentValues();
                 values.put(TABLE_VALUE_COORDINATES,idCoordinates);
                 values.put(TABLE_VALUE_INFORMATIONS,idInformations);
+                values.put(TABLE_VALUE_SEND, sendOnServer == true ? 1:0);
                 dataBase.insert(TABLE_DATA,null,values);
                 Log.d("add..","added");
             }
@@ -102,7 +107,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     {
         String result="";
         //String query="SELECT * FROM "+TABLE_DATA;
-        String query= "SELECT Coordinates.X,Coordinates.Y, Coordinates.Z, Informations.SSID, Informations.Frequency, Informations.Capabilities ,Informations.Level FROM "+TABLE_DATA+
+        String query= "SELECT Data.Send, Coordinates.X,Coordinates.Y, Coordinates.Z, Informations.SSID, Informations.Frequency, Informations.Capabilities ,Informations.Level FROM "+TABLE_DATA+
                 " INNER JOIN "+TABLE_COORDINATES+" ON Data.Coordinates=Coordinates.id INNER JOIN "+TABLE_WIFI_INFORMATIONS+
                 " ON Data.Informations=Informations.id";
         SQLiteDatabase db = this.getWritableDatabase();

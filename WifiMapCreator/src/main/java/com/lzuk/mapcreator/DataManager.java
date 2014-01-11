@@ -36,7 +36,7 @@ public class DataManager implements IGPSListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        dataBaseHelper.addData(location, wiFiListener.getScanResults());
+        dataBaseHelper.addData(location, wiFiListener.getScanResults(),false);
         //dataBaseHelper.getAllData();
     }
 
