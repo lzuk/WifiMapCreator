@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class DummySectionFragment extends Fragment{
     private Button enableDisableButton;
     private TextView textViewGPS;
     private GPSWiFiLocationListener locationListener;
+    private View root;
 
     public DummySectionFragment(FragmentActivity fragmentActivity, GPSWiFiLocationListener locationListener) {
         this.fragmentActivity=fragmentActivity;
@@ -30,16 +32,26 @@ public class DummySectionFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //locationListener = new GPSWiFiLocationListener(fragmentActivity.getApplicationContext(), fragmentActivity);
-
-        enableDisableButton = (Button) rootView.findViewById(R.id.enableDisableButton);
+        if (root!= null) {
+            ViewGroup parent = (ViewGroup) root.getParent();
+            if (parent != null)
+                parent.removeView(root);
+        }
+        try {
+            root = inflater.inflate(R.layout.fragment_main, container, false);
+            prepareFragment();
+        } catch (InflateException e) {
+        }
+        return root;
+    }
+    private void prepareFragment(){
+        enableDisableButton = (Button) root.findViewById(R.id.enableDisableButton);
 
         enableDisableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewGPS = (TextView) rootView.findViewById(R.id.GPSLocation);
+                textViewGPS = (TextView) root.findViewById(R.id.GPSLocation);
 
                 updateEnableDisableButton();
                 if (!locationListener.isEnabled())
@@ -50,8 +62,6 @@ public class DummySectionFragment extends Fragment{
                 }
             }
         });
-
-        return rootView;
     }
 
     public void updateEnableDisableButton() {

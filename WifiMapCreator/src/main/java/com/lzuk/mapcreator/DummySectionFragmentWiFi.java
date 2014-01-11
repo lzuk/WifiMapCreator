@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class DummySectionFragmentWiFi extends Fragment {
     private Button button;
     private WiFiListener wiFiListener;
     private ArrayAdapter<String> adapter;
+    private View root;
 
     public DummySectionFragmentWiFi(FragmentActivity fragmentActivity) {
         this.fragmentActivity=fragmentActivity;
@@ -39,10 +41,22 @@ public class DummySectionFragmentWiFi extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_main_wifi, container, false);
-        textViewWiFi = (TextView) rootView.findViewById(R.id.wifiStatus);
-        wifiListView = (ListView) rootView.findViewById(R.id.wifiListView);
-        button = (Button)rootView.findViewById(R.id.button);
+        if (root!= null) {
+            ViewGroup parent = (ViewGroup) root.getParent();
+            if (parent != null)
+                parent.removeView(root);
+        }
+        try {
+            root = inflater.inflate(R.layout.fragment_main_wifi, container, false);
+            prepareFragment();
+        } catch (InflateException e) {
+        }
+        return root;
+    }
+    private void prepareFragment(){
+        textViewWiFi = (TextView) root.findViewById(R.id.wifiStatus);
+        wifiListView = (ListView) root.findViewById(R.id.wifiListView);
+        button = (Button)root.findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +65,6 @@ public class DummySectionFragmentWiFi extends Fragment {
 
             }
         });
-        return rootView;
     }
     public void setWiFiList(List<ScanResult> scans){
         ArrayList<String> scansL = new ArrayList<String>();
