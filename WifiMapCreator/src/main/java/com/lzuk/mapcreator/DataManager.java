@@ -21,6 +21,11 @@ public class DataManager implements IGPSListener {
         dataBaseHelper = new DataBaseHelper(activity);
     }
     private Activity activity;
+
+    public WiFiListener getWiFiListener() {
+        return wiFiListener;
+    }
+
     private WiFiListener wiFiListener;
     private DataBaseHelper dataBaseHelper;
 
@@ -39,4 +44,5 @@ public class DataManager implements IGPSListener {
         dataBaseHelper.addData(location, wiFiListener.getScanResults(),false);
         //dataBaseHelper.getAllData();
     }
+
 }

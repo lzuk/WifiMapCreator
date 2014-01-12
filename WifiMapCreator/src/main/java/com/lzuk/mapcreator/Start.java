@@ -22,7 +22,7 @@ public class Start extends FragmentActivity {
         DataManager dataManager = new DataManager(this);
         locationListener.addListener(dataManager);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),this,locationListener);
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),this,locationListener, dataManager.getWiFiListener());
         locationListener.addListener(sectionsPagerAdapter);
 
         viewPager = (ViewPager)findViewById(R.id.pager);
