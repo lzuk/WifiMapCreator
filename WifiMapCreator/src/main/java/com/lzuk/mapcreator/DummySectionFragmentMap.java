@@ -1,23 +1,20 @@
 package com.lzuk.mapcreator;
 
 import android.location.Location;
+import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
@@ -31,10 +28,12 @@ public class DummySectionFragmentMap extends Fragment{
     static final LatLng PolSLAEI = new LatLng(50.28869429, 18.67747071);
     private GPSWiFiLocationListener locationListener;
     private View root;
+    private WiFiListener wiFiListener;
 
-    public DummySectionFragmentMap(FragmentActivity fragmentActivity, GPSWiFiLocationListener locationListener) {
+    public DummySectionFragmentMap(FragmentActivity fragmentActivity, GPSWiFiLocationListener locationListener, WiFiListener wiFiListener) {
         this.fragmentActivity=fragmentActivity;
         this.locationListener = locationListener;
+        this.wiFiListener = wiFiListener;
     }
 
     @Override
@@ -59,7 +58,7 @@ public class DummySectionFragmentMap extends Fragment{
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         map.setBuildingsEnabled(true);
 
-        if (locationListener.getLastKnownLocation() == null || !locationListener.isEnabled()){
+        if (locationListener.getLastKnownLocation() == null){
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(PolSLAEI, 18));
         }
         else{
@@ -69,9 +68,18 @@ public class DummySectionFragmentMap extends Fragment{
         }
     }
     public void locationChanged(Location location) {
-        //if (isVisible()){
-            map.moveCamera(CameraUpdateFactory.newLatLng(
-                    new LatLng(location.getLatitude(), location.getLongitude())));
-        //}
+        //map.moveCamera(CameraUpdateFactory.newLatLng(
+          //  new LatLng(location.getLatitude(), location.getLongitude())));
+
+        String snippet = "";
+        if (wiFiListener != null){
+            for (ScanResult scanResult : wiFiListener.getScanResults()){
+                snippet += scanResult.SSID + " " + scanResult.level + "\r\n";
+            }
+            if (getActivity() != null && getActivity().getApplicationContext() != null){
+                Toast.makeText(getActivity().getApplicationContext(), "New location added", Toast.LENGTH_LONG).show();
+            }
+        }
+        map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Test").snippet(snippet));
     }
 }
