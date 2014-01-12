@@ -71,7 +71,7 @@ public class DummySectionFragment extends Fragment{
         result.append("\n\n");
         result.append("Wysokość : \n" + location.getAltitude());
         result.append("\n\n");
-        result.append("Długość : \n" + location.getLatitude());
+        result.append("Długość : \n" + location.getLongitude());
         result.append("\n\n");
         return result.toString();
     }
