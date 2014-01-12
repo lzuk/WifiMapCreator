@@ -39,9 +39,4 @@ public class DataManager implements IGPSListener {
         dataBaseHelper.addData(location, wiFiListener.getScanResults(),false);
         //dataBaseHelper.getAllData();
     }
-
-    public WiFiListener getWiFiListener()
-    {
-        return wiFiListener;
-    }
 }

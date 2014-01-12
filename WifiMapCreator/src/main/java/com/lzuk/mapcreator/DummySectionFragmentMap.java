@@ -69,9 +69,9 @@ public class DummySectionFragmentMap extends Fragment{
         }
     }
     public void locationChanged(Location location) {
-        if (isVisible()){
+        //if (isVisible()){
             map.moveCamera(CameraUpdateFactory.newLatLng(
                     new LatLng(location.getLatitude(), location.getLongitude())));
-        }
+        //}
     }
 }

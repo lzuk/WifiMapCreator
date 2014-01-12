@@ -41,7 +41,6 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         File file = new File("/sdcard/WifiMapCreator");
         file.mkdirs();
         SQLiteDatabase.openOrCreateDatabase("/sdcard/WifiMapCreator/"+DATABASE_NAME+".db",null); // zapis bazy n akarcie pamięci
-        //SQLiteDatabase.openOrCreateDatabase("/"+DATABASE_NAME+".db",null);
     }
 
     @Override

@@ -1,14 +1,11 @@
 package com.lzuk.mapcreator;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.widget.Button;
-import android.widget.TextView;
 
-public class Start extends FragmentActivity implements IGPSListener {
+public class Start extends FragmentActivity {
 
 
 
@@ -21,27 +18,17 @@ public class Start extends FragmentActivity implements IGPSListener {
         errReporter.Init(this);
         errReporter.CheckErrorAndSendMail(this);
 
-
-        //enableDisableButton = (Button) findViewById(R.id.enableDisableButton);
-
         locationListener = new GPSWiFiLocationListener(getApplicationContext(), this);
         DataManager dataManager = new DataManager(this);
         locationListener.addListener(dataManager);
-        locationListener.addListener(this);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),this,locationListener);
-        sectionsPagerAdapter.setWiFiListener(dataManager.getWiFiListener());
-
-
+        locationListener.addListener(sectionsPagerAdapter);
 
         viewPager = (ViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-
     }
 
-    private Button enableDisableButton;
-    private TextView textViewWiFi;
-    private TextView textViewGPS;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
 
@@ -52,19 +39,5 @@ public class Start extends FragmentActivity implements IGPSListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.start, menu);
         return true;
-    }
-
-    @Override
-    public void onEnableGPS() {
-    }
-
-    @Override
-    public void onDisableGPS() {
-       // updateEnableDisableButton();
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-       // textViewGPS.setText(location.toString());
     }
 }

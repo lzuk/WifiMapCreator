@@ -98,9 +98,4 @@ public class SectionsPagerAdapter  extends FragmentPagerAdapter implements IGPSL
         dummySectionFragmentMap.locationChanged(location);
     }
 
-    public void setWiFiListener(WiFiListener wiFiListener)
-    {
-        this.wiFiListener= wiFiListener;
-    }
-
 }
