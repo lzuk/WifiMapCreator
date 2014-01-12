@@ -75,9 +75,9 @@ public class DummySectionFragmentWiFi extends Fragment {
             result.append("\n");
             result.append("Szyfrowanie : " + scanResult.capabilities );
             result.append("\n");
-            result.append("Poziom : " + scanResult.level);
+            result.append("Poziom : " + scanResult.level + " dB");
             result.append("\t");
-            result.append("Częstotliwość : " + scanResult.frequency);
+            result.append("Częstotliwość : " + scanResult.frequency + " MHz");
             scansL.add(result.toString());
         }
         adapter = new ArrayAdapter<String>(fragmentActivity, R.layout.row, scansL);

@@ -58,16 +58,15 @@ public class DummySectionFragment extends Fragment{
                     locationListener.enableListener();
                 else{
                     locationListener.disableListener();
-                    textViewGPS.setText(getLocation());
+                    textViewGPS.setText(getLocation(locationListener.getLastKnownLocation()));
                 }
             }
         });
     }
 
-    public String getLocation()
+    public String getLocation(Location location)
     {
         StringBuilder result =  new StringBuilder();
-        Location location = locationListener.getLastKnownLocation();
         result.append("Szerokość : \n" + location.getLatitude());
         result.append("\n\n");
         result.append("Wysokość : \n" + location.getAltitude());
@@ -89,7 +88,7 @@ public class DummySectionFragment extends Fragment{
 
     public void setGPSText(Location location)
     {
-        textViewGPS.setText(location.toString());
+        textViewGPS.setText(getLocation(location));
     }
 
 }
