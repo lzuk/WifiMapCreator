@@ -27,7 +27,7 @@ public class Start extends FragmentActivity {
 
         viewPager = (ViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(sectionsPagerAdapter.getCount());
     }
 
     private SectionsPagerAdapter sectionsPagerAdapter;
